@@ -25,7 +25,7 @@ public class gameScreen extends JFrame {
         mainPanel.setSize(600, 600);
         mainPanel.setLocation(0, 0);
         mainPanel.setVisible(true);
-        mainPanel.setLayout(new GridLayout());
+        mainPanel.setLayout(null);
         //mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         infoPanel.setSize(200, 600);
         infoPanel.setLocation(600, 0);
@@ -53,17 +53,17 @@ public class gameScreen extends JFrame {
                         String splitAction[] = action.split(" ");
                         int x = Integer.parseInt(splitAction[0]);
                         int y = Integer.parseInt(splitAction[1]);
-                        gameGrid[x][y].setEnabled(false);
+                        gameGrid[x][y].removeActionListener(this);
                         if (player == 1)  {
-                           // gameGrid[x][y].setIcon(blueIcon);
+                            gameGrid[x][y].setIcon(blueIcon);
                             gameGrid[x][y].setActionCommand(x + " " + y + " " + player);
                             player = 2;
                         } else{
-                            //gameGrid[x][y].setIcon(redIcon);
+                            gameGrid[x][y].setIcon(redIcon);
                             gameGrid[x][y].setActionCommand(x + " " + y + " " + player);
                             player = 1;
                         }
-                        //gameGrid[x][y].setSize(size, size);
+                        gameGrid[x][y].setSize(size, size);
                     }
                 });
                 gameGrid[x][y].setVisible(true);
