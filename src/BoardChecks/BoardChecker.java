@@ -9,15 +9,20 @@ public class BoardChecker {
         int yIt = y;
         boolean skip = false;
         int count = 0;
+        int test = 0;
 
-        while (yIt > -1 && (board[x][yIt] == player || (board[x][yIt] == 0 && !skip))) {
+        while (yIt > -1 && (board[x][yIt] == player || (board[x][yIt] == 0 && !skip)) && test < 5) {
             if (board[x][yIt] == 0)
-                skip = false;
+                skip = true;
+            else
+                test++;
             yIt--;
         }
+        if (test == 4)
+            return false;
         if (yIt == -1 && board[x][0] != 0)
             return false;
-        if (board[x][yIt] == opponent && board[x][yIt + 1] != 0)
+        if (yIt != -1 && board[x][yIt] == opponent && board[x][yIt + 1] != 0)
             return false;
         yIt++;
         while (yIt < 19 && (board[x][yIt] == player || (board[x][yIt] == 0 && skip))) {
@@ -34,15 +39,18 @@ public class BoardChecker {
         int xIt = x;
         boolean skip = false;
         int count = 0;
+        int test = 0;
 
-        while (xIt > -1 && (board[xIt][y] == player || (board[xIt][y] == 0 && !skip))) {
+        while (xIt > -1 && (board[xIt][y] == player || (board[xIt][y] == 0 && !skip)) && test < 5) {
             if (board[xIt][y] == 0)
-                skip = false;
+                skip = true;
+            else
+                test++;
             xIt--;
         }
         if (xIt == -1 && board[0][y] != 0)
             return false;
-        if (board[xIt][y] == opponent && board[xIt + 1][y] != 0)
+        if (xIt != -1 && board[xIt][y] == opponent && board[xIt + 1][y] != 0)
             return false;
         xIt++;
         while (xIt < 19 && (board[xIt][y] == player || (board[xIt][y] == 0 && skip))) {
@@ -60,16 +68,21 @@ public class BoardChecker {
         int yIt = y;
         boolean skip = false;
         int count = 0;
+        int test = 0;
 
-        while ((xIt > -1 && yIt > -1) && (board[xIt][yIt] == player || (board[xIt][yIt] == 0 && !skip))) {
+        while ((xIt > -1 && yIt > -1) && (board[xIt][yIt] == player || (board[xIt][yIt] == 0 && !skip)) && test < 5) {
             if (board[xIt][yIt] == 0)
-                skip = false;
+                skip = true;
+            else
+                test++;
             xIt--;
             yIt--;
         }
+        if (test == 4)
+            return false;
         if ((xIt == -1 || yIt == -1) && board[xIt + 1][yIt + 1] != 0)
             return false;
-        if (board[xIt][yIt] == opponent && board[xIt + 1][yIt + 1] != 0)
+        if ((xIt != -1 && yIt != -1) &&board[xIt][yIt] == opponent && board[xIt + 1][yIt + 1] != 0)
             return false;
         xIt++;
         yIt++;
@@ -89,16 +102,21 @@ public class BoardChecker {
         int yIt = y;
         boolean skip = false;
         int count = 0;
+        int test = 0;
 
-        while ((xIt > -1 && yIt < 19) && (board[xIt][yIt] == player || (board[xIt][yIt] == 0 && !skip))) {
+        while ((xIt > -1 && yIt < 19) && (board[xIt][yIt] == player || (board[xIt][yIt] == 0 && !skip)) && test < 5) {
             if (board[xIt][yIt] == 0)
-                skip = false;
+                skip = true;
+            else
+                test++;
             xIt--;
             yIt++;
         }
+        if (test == 4)
+            return false;
         if ((xIt == -1 || yIt == 19) && board[xIt + 1][yIt - 1] != 0)
             return false;
-        if (board[xIt][y] == opponent && board[xIt + 1][y] != 0)
+        if ((xIt != -1 && yIt != 19) && board[xIt][y] == opponent && board[xIt + 1][yIt - 1] != 0)
             return false;
         xIt++;
         yIt--;

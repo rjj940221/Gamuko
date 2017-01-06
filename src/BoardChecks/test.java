@@ -22,6 +22,10 @@ public class test {
         }
     }
 
+    static boolean check(){
+        System.out.println("check called");
+        return false;
+    }
     public static void main(String[] args) {
         test tester = new test();
         BoardChecker boadTester = new BoardChecker();
@@ -82,6 +86,11 @@ public class test {
         System.out.println("expecting true: " + boadTester.isCapture(board, 1, 3, 0));
         System.out.println("expecting true: " + boadTester.isCapture(board, 1, 3, 3));
         System.out.println("expecting true: " + boadTester.isCapture(board, 1, 0, 3));
-
+        tester.reset(board);
+        board[0][0] = 1;
+        System.out.println(boadTester.isValidMove(board,2,1,0));
+        int a = 0;
+        while (a++ > 2 && check())
+            System.out.println("false and false passes");
     }
 }
