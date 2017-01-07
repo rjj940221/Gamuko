@@ -5,62 +5,113 @@ package BoardChecks;
  */
 public class BoardChecker {
 
+    /**
+     * Created by sasiedu
+     */
     private boolean checkFreeThreeVertical(int board[][], int player, int opponent, int x, int y) {
-        int yIt = y;
         boolean skip = false;
-        int count = 0;
-        int test = 0;
-
-        while (yIt > -1 && (board[x][yIt] == player || (board[x][yIt] == 0 && !skip)) && test < 5) {
-            if (board[x][yIt] == 0)
+        int found = 0;
+        int tmpX = x - 1;
+        int tmpY = y;
+        //checking free three going towards the north
+        while (tmpX > -1 && board[tmpX][tmpY] == player || tmpX > -1 && board[tmpX][tmpY] == 0 && !skip) {
+            //accounting for free three with space
+            if (board[tmpX][tmpY] == 0)
                 skip = true;
             else
-                test++;
-            yIt--;
+                found++;
+            //checking for end of board
+            if (tmpX - 1 < 0)
+                break;
+            //checking if next slot is free, to make it a free three
+            if (found == 2 && board[tmpX - 1][tmpY] == 0 && x + 1 < 19 && board[x + 1][y] == 0)
+                return true;
+            //checking if next slot is blocked, then it is not a free three
+            if (found == 2 && board[tmpX - 1][tmpY] != 0)
+                break;
+            tmpX--;
         }
-        if (test == 4)
-            return false;
-        if (yIt == -1 && board[x][0] != 0)
-            return false;
-        if (yIt != -1 && board[x][yIt] == opponent && board[x][yIt + 1] != 0)
-            return false;
-        yIt++;
-        while (yIt < 19 && (board[x][yIt] == player || (board[x][yIt] == 0 && skip))) {
-            if (board[x][yIt] == player)
-                count++;
+        if (found == 1 && x + 1 < 19 && board[x + 1][y] == player)
+            return true;
+        //checking free three going towards then east
+        skip = false;
+        found = 0;
+        tmpX = x + 1;
+        tmpY = y;
+        while (tmpX < 19 && board[tmpX][tmpY] == player || tmpX < 19 && board[tmpX][tmpY] == 0 && !skip) {
+            if (board[tmpX][tmpY] == 0)
+                skip = true;
             else
-                skip = false;
-            yIt++;
+                found++;
+            //checking for board end
+            if (tmpX + 1 > 19 - 1)
+                break;
+            //checking if next slot is free, to make it free three
+            if (found == 2 && board[tmpX + 1][tmpY] == 0 && x - 1 > -1 && board[x - 1][y] == 0)
+                return true;
+            //checking if next slot is blocked, then it is not a free three
+            if (found == 2 && board[tmpX + 1][tmpY] != 0)
+                break;
+            tmpX++;
         }
-        return yIt != 19 && count == 3 && (board[x][yIt] == 0 || board[x][yIt - 1] == 0);
+        if (found == 1 && x - 1 < -1 && board[x - 1][y] == player)
+            return true;
+        return false;
     }
 
+    /**
+     * Created by sasiedu
+     */
     private boolean checkFreeThreeHorizantal(int board[][], int player, int opponent, int x, int y) {
-        int xIt = x;
         boolean skip = false;
-        int count = 0;
-        int test = 0;
-
-        while (xIt > -1 && (board[xIt][y] == player || (board[xIt][y] == 0 && !skip)) && test < 5) {
-            if (board[xIt][y] == 0)
+        int found = 0;
+        int tmpX = x;
+        int tmpY = y - 1;
+        //System.out.println("x : "+x+"y : "+y);
+        //checking free three going towards the west
+        while (tmpY > -1 && board[tmpX][tmpY] == player || tmpY > -1 && board[tmpX][tmpY] == 0 && !skip) {
+            //accounting for free three with space
+            if (board[tmpX][tmpY] == 0)
                 skip = true;
             else
-                test++;
-            xIt--;
+                found++;
+            //checking for end of board
+            if (tmpY - 1 < 0)
+                break;
+            //checking if next slot is free, to make it a free three
+            if (found == 2 && board[tmpX][tmpY - 1] == 0 && y + 1 < 19 && board[x][y + 1] == 0)
+                return true;
+            //checking if next slot is blocked, then it is not a free three
+            if (found == 2 && board[tmpX][tmpY - 1] != 0)
+                break;
+            tmpY--;
         }
-        if (xIt == -1 && board[0][y] != 0)
-            return false;
-        if (xIt != -1 && board[xIt][y] == opponent && board[xIt + 1][y] != 0)
-            return false;
-        xIt++;
-        while (xIt < 19 && (board[xIt][y] == player || (board[xIt][y] == 0 && skip))) {
-            if (board[xIt][y] == player)
-                count++;
+        if (found == 1 && y + 1 < 19 && board[x][y + 1] == player)
+            return true;
+        //checking free three going towards then east
+        skip = false;
+        found = 0;
+        tmpX = x;
+        tmpY = y + 1;
+        while (tmpY < 19 && board[tmpX][tmpY] == player || tmpY < 19 && board[tmpX][tmpY] == 0 && !skip) {
+            if (board[tmpX][tmpY] == 0)
+                skip = true;
             else
-                skip = false;
-            xIt++;
+                found++;
+            //checking for board end
+            if (tmpY + 1 > 19 - 1)
+                break;
+            //checking if next slot is free, to make it free three
+            if (found == 2 && board[tmpX][tmpY + 1] == 0 && y - 1 > -1 && board[x][y - 1] == 0)
+                return true;
+            //checking if next slot is blocked, then it is not a free three
+            if (found == 2 && board[tmpX][tmpY + 1] != 0)
+                break;
+            tmpY++;
         }
-        return xIt != 19 && count == 3 && (board[xIt][y] == 0 || board[xIt - 1][y] == 0);
+        if (found == 1 && y - 1 > -1 && board[x][y - 1] == player)
+            return true;
+        return false;
     }
 
     private boolean checkFreeThreePosDiagnol(int board[][], int player, int opponent, int x, int y) {
@@ -82,19 +133,23 @@ public class BoardChecker {
             return false;
         if ((xIt == -1 || yIt == -1) && board[xIt + 1][yIt + 1] != 0)
             return false;
-        if ((xIt != -1 && yIt != -1) &&board[xIt][yIt] == opponent && board[xIt + 1][yIt + 1] != 0)
+        if ((xIt != -1 && yIt != -1) && board[xIt][yIt] == opponent && board[xIt + 1][yIt + 1] != 0)
             return false;
-        xIt++;
-        yIt++;
-        while ((xIt < 19 && yIt < 19) && (board[xIt][y] == player || (board[xIt][y] == 0 && skip))) {
-            if (board[xIt][y] == player)
+        while (xIt < 0 || yIt < 0 ||board[xIt][yIt] != player) {
+            xIt++;
+            yIt++;
+        }
+        while ((xIt < 19 && yIt < 19) && (board[xIt][yIt] == player || (board[xIt][yIt] == 0 && skip))) {
+            if (board[xIt][yIt] == player)
                 count++;
             else
                 skip = false;
             xIt++;
             yIt++;
         }
-        return xIt != 19 && yIt != 19 && count == 3 && (board[xIt][y] == 0 || board[xIt - 1][y] == 0);
+        if (xIt == 19 || yIt == 19)
+            return board[xIt - 1][yIt - 1] == 0 && count == 3;
+        return count == 3 && (board[xIt][y] == 0 || board[xIt - 1][y] == 0);
     }
 
     private boolean checkFreeThreeNegDiagonla(int board[][], int player, int opponent, int x, int y) {
@@ -118,8 +173,10 @@ public class BoardChecker {
             return false;
         if ((xIt != -1 && yIt != 19) && board[xIt][y] == opponent && board[xIt + 1][yIt - 1] != 0)
             return false;
-        xIt++;
-        yIt--;
+        while ((xIt < 0 || yIt > 18 || board[xIt][yIt] != player)) {
+            xIt++;
+            yIt--;
+        }
         while ((xIt < 19 && yIt > -1) && (board[xIt][yIt] == player || (board[xIt][yIt] == 0 && skip))) {
             if (board[xIt][yIt] == player)
                 count++;
@@ -128,7 +185,9 @@ public class BoardChecker {
             xIt++;
             yIt--;
         }
-        return xIt != 19 && yIt != -1 && count == 3 && (board[xIt][y] == 0 || board[xIt - 1][y] == 0);
+        if (xIt == 19 || yIt ==-1)
+            return board[xIt - 1][yIt + 1] == 0 && count == 3;
+        return count == 3 && (board[xIt][y] == 0 || board[xIt - 1][y] == 0);
     }
 
     public boolean isValidMove(int board[][], int player, int x, int y) {
@@ -146,9 +205,7 @@ public class BoardChecker {
         if (numFreeThree < 2 && checkFreeThreeNegDiagonla(board, player, opponent, x, y))
             numFreeThree++;
         board[x][y] = 0;
-        if (numFreeThree < 2)
-            return true;
-        return false;
+       return (numFreeThree < 2);
     }
 
     public boolean isLineVictory(int board[][], int player) {
