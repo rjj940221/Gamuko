@@ -101,9 +101,69 @@ public class GomokuAI {
         return bestmove;
     }
 
+    private Move alphaBeta(int board[][], boolean maximiser, int depth, int alpha, int beta) {
+        Vector<Move> moves;
+        Move bestmove = null;
+
+        if (checker.isLineVictory(board, player)) {
+            bestmove = new Move(-1, -1, board, this.player);
+            bestmove.value = 1000;
+            return (bestmove);
+        }
+        if (checker.isLineVictory(board, opponent)) {
+            bestmove = new Move(-1, -1, board, this.player);
+            bestmove.value = -1000;
+            return (bestmove);
+        }
+
+        if (maximiser) {
+            if (depth == this.depth)
+                return (new Move(-1, -1, board, this.player));
+
+            moves = generateMoves(board, player);
+            for (Iterator<Move> i = moves.iterator(); i.hasNext(); ) {
+                Move move = (Move) i.next();
+                Move branch = alphaBeta(move.getBoard(), !maximiser, depth + 1,
+                        (bestmove != null) ? bestmove.value : Integer.MIN_VALUE, beta);
+                if (branch != null) {
+                    if (bestmove == null || branch.value > bestmove.value) {
+                        bestmove = move;
+                        bestmove.value = branch.value;
+                    }
+                    alpha = Math.max(bestmove.value, alpha);
+                }
+                if (beta <= alpha)
+                    return bestmove;
+            }
+        } else {
+            if (depth == this.depth) {
+                Move re = new Move(-1, -1, board, this.opponent);
+                re.value = re.value * -1;
+                return (re);
+            }
+            moves = generateMoves(board, opponent);
+            for (Iterator<Move> i = moves.iterator(); i.hasNext(); ) {
+                Move move = (Move) i.next();
+                Move branch = alphaBeta(move.getBoard(), !maximiser, depth + 1,
+                        alpha, (bestmove != null) ? bestmove.value : Integer.MIN_VALUE);
+                if (branch != null) {
+                    if (bestmove == null || (branch.value) < bestmove.value) {
+                        bestmove = move;
+                        bestmove.value = (branch.value);
+                    }
+                    beta = Math.min(bestmove.value, beta);
+                    if (beta <= alpha)
+                        return  bestmove;
+                }
+
+            }
+        }
+        return bestmove;
+    }
+
     public String play(int board[][]) {
 
-        Move m = minMax(board, true, 0);
+        Move m = alphaBeta(board, true, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         if (m != null)
             return (m.x + "," + m.y);
         else return (null);

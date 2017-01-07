@@ -25,7 +25,7 @@ public class test {
         int board[][] = new int[19][19];
         test tester = new test();
         Move move;
-        GomokuAI ai = new GomokuAI(1, 3, 3);
+        GomokuAI ai = new GomokuAI(1, 4, 4);
         move = new Move(0, 0, board, 1);
         System.out.println("making the move 0,0 on an empty board: " + move.value);
         move.setBoardPeace(1, 1, 1);
