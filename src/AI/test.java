@@ -25,7 +25,7 @@ public class test {
         int board[][] = new int[19][19];
         test tester = new test();
         Move move;
-        GomokuAI ai = new GomokuAI(1, 4, 4);
+        GomokuAI ai = new GomokuAI(1, 4, 3);
         move = new Move(0, 0, board, 1);
         System.out.println("making the move 0,0 on an empty board: " + move.value);
         move.setBoardPeace(1, 1, 1);
@@ -43,6 +43,18 @@ public class test {
         System.out.println("player 1 making the move 3,3 on a board with a peace(1) at(2,2) and (0,0): " + move.value);
         move = new Move(1, 2, board, 1);
         System.out.println("player 1 making the move 1,2 on a board with a peace(1) at(2,2) and (0,0): " + move.value);
+        tester.reset(board);
+        board[0][0] = 2;
+        board[0][1] = 1;
+        board[0][3] = 2;
+        move = new Move(0, 2, board, 1);
+        System.out.println("player 1 making the move 0,2 on a board with a peace(1) at (0,1) peaces(2) at (0,0), (0,3): " + move.value);
+        tester.reset(board);
+        board[0][0] = 2;
+        board[0][1] = 1;
+        board[0][2] = 1;
+        move = new Move(0, 3, board, 2);
+        System.out.println("player 2 making the move 0,3 on a board with a peace(1) at (0,1), (0,2) peaces(2) at (0,0): " + move.value);
         long startTime = System.nanoTime();
         String moveMade = ai.play(board);
         long endTime = System.nanoTime();
@@ -50,7 +62,5 @@ public class test {
 
         System.out.println(moveMade);
         System.out.println("time (milliseconds): "+ duration);
-        board[1][1] = 1;
-        tester.printBoard(board);
     }
 }

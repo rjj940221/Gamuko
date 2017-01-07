@@ -30,7 +30,7 @@ public class Box implements ActionListener {
 
     private void    createBox(){
         box = new JButton("");
-        box.setBounds(PosX * Boxwidth, PosY * Boxheight, Boxwidth, Boxheight);
+        box.setBounds(PosY * Boxwidth, PosX * Boxheight, Boxwidth, Boxheight);
         box.setLayout(null);
         box.addActionListener(this);
         ParentGrid.add(box);
